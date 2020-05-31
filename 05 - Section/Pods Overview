@@ -1,0 +1,21 @@
+05 Section
+
+Kubernetes Pods
+
+- Pod in Kubernetes is just the most basic unit of deployment.
+
+- Pods are not visible outside the clusters
+
+
+kubectl -> The most usefull command use in Kubernetes cluster
+
+kubectl get all -> This command return all information from cluster
+
+kubectl apply -f file-name.yaml -> This command is used to create pod inside cluster
+
+kubectl describe pod POD_NAME -> This command is usefull to get all infomation from pod
+
+kubectl exec POD_NAME ls -> This command is usefull to execute command against the pod, it's like an exec command from Docker.
+
+kubectl -it exec POD_NAME sh -> This usefull command to get inside de container
+
