@@ -2,20 +2,26 @@
 
 Kubernetes Pods
 
-- Pod in Kubernetes is just the most basic unit of deployment.
+A Pod is the basic execution unit of a Kubernetes application–the smallest and simplest unit in the Kubernetes object model that you create or deploy. A Pod represents processes running on your cluster.
 
-- Pods are not visible outside the clusters
+A Pod encapsulates an application’s container (or, in some cases, multiple containers), storage resources, a unique network identity (IP address), as well as options that govern how the container(s) should run. A Pod represents a unit of deployment: a single instance of an application in Kubernetes, which might consist of either a single container or a small number of containers that are tightly coupled and that share resources.
+
+Importante information:
+
+	- Pods are not visible outside the clusters
 
 
-kubectl -> The most usefull command use in Kubernetes cluster
+Utils commands to use in CLI:
 
-kubectl get all -> This command return all information from cluster
+	- kubectl -> The most usefull command use in Kubernetes cluster
 
-kubectl apply -f file-name.yaml -> This command is used to create pod inside cluster
+	- kubectl get all -> This command return all information from cluster
 
-kubectl describe pod POD_NAME -> This command is usefull to get all infomation from pod
+	- kubectl apply -f file-name.yaml -> This command is used to create pod inside cluster
 
-kubectl exec POD_NAME ls -> This command is usefull to execute command against the pod, it's like an exec command from Docker.
+	- kubectl describe pod POD_NAME -> This command is usefull to get all infomation from pod
 
-kubectl -it exec POD_NAME sh -> This usefull command to get inside de container
+	- kubectl exec POD_NAME ls -> This command is usefull to execute command against the pod, it's like an exec command from Docker.
+
+	- kubectl -it exec POD_NAME sh -> This usefull command to get inside de container
 
