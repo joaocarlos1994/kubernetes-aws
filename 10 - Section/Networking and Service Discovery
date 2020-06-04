@@ -1,0 +1,31 @@
+
+
+
+kubectl get ns
+
+kubectl get po -n kube-system
+
+kubectl get po -n kube-system
+
+kubectl create -f namespace-dev.json
+
+            {
+                "apiVersion": "v1",
+                "kind": "Namespace",
+                "metadata": {
+                    "name": "development",
+                    "labels": {
+                        "name": "development"
+                    }
+                }
+            }
+
+
+nslookup
+
+cat /etc/resolv.conf
+
+    nameserver 10.96.0.10
+    search default.svc.cluster.local svc.cluster.local cluster.local
+    options ndots:5
+
