@@ -1,13 +1,17 @@
 
 
+This command is used to list all namespaces inside a cluster:
+    - kubectl get ns: 
 
-kubectl get ns
+This command is used to list all pods in specific namespaces:
+    - kubectl get po -n kube-system
 
-kubectl get po -n kube-system
+This command is used to list all pods in specific namespaces:
+    - kubectl get po -n kube-system
 
-kubectl get po -n kube-system
+This command is used to create a namespace inside Kubernetes cluster:
 
-kubectl create -f namespace-dev.json
+    - kubectl create -f namespace-dev.json
 
             {
                 "apiVersion": "v1",
@@ -21,11 +25,35 @@ kubectl create -f namespace-dev.json
             }
 
 
-nslookup
+This command is used to resolved a specific DNS:
+    nslookup google.com
 
-cat /etc/resolv.conf
+        nslookup: can't resolve '(null)': Name does not resolve
 
-    nameserver 10.96.0.10
-    search default.svc.cluster.local svc.cluster.local cluster.local
-    options ndots:5
+        Name:      google.com
+        Address 1: 172.217.30.174 gru14s18-in-f14.1e100.net
+        
+#################################################################################
+
+This command shows the file that resolve almost all dns inside e Linux enverioment:
+    cat /etc/resolv.conf
+
+        nameserver 10.96.0.10 #Resolve DNS cluster
+        search default.svc.cluster.local svc.cluster.local cluster.local
+        options ndots:5
+
+#################################################################################
+
+This command is used to update an Aphine image:
+
+    - apk update
+
+This command is used to install mysql-client in Aphine Linux:
+
+    - apk apk add mysql-client
+
+This command is used to connect a remote database, in this example we're used a container inside
+the cluster:
+
+    - mysql -h database -uroot -ppassword fleetman    
 
