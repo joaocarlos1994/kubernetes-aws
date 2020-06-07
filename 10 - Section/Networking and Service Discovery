@@ -57,3 +57,8 @@ the cluster:
 
     - mysql -h database -uroot -ppassword fleetman    
 
+This command is used to get inside a specific Pod:
+
+    - kubectl exec -it POD_NAME sh
+
+
