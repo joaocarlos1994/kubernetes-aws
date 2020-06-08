@@ -1,0 +1,44 @@
+Kubernetes Persistence and Volumes
+
+A Kubernetes volume, on the other hand, has an explicit lifetime - the same as the Pod that 
+encloses it. Consequently, a volume outlives any Containers that run within the Pod, and data 
+is preserved across Container restarts. Of course, when a Pod ceases to exist, the volume will 
+cease to exist, too. Perhaps more importantly than this, Kubernetes supports many types of 
+volumes, and a Pod can use any number of them simultaneously.
+
+At its core, a volume is just a directory, possibly with some data in it, which is accessible 
+to the Containers in a Pod. How that directory comes to be, the medium that backs it, and the
+contents of it are determined by the particular volume type used.
+
+A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by 
+an administrator or dynamically provisioned using Storage Classes. It is a resource in the 
+cluster just like a node is a cluster resource. PVs are volume plugins like Volumes, but have
+a lifecycle independent of any individual Pod that uses the PV. This API object captures the
+details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific
+storage system.
+
+A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods 
+consume node resources and PVCs consume PV resources. Pods can request specific levels of 
+resources (CPU and Memory). Claims can request specific size and access modes (e.g., they can 
+be mounted once read/write or many times read-only).
+
+While PersistentVolumeClaims allow a user to consume abstract storage resources, it is common 
+that users need PersistentVolumes with varying properties, such as performance, for different 
+problems. Cluster administrators need to be able to offer a variety of PersistentVolumes that 
+differ in more ways than just size and access modes, without exposing users to the details of 
+how those volumes are implemented.
+
+Pods access storage by using the claim as a volume. Claims must exist in the same namespace as 
+the Pod using the claim. The cluster finds the claim in the Pod’s namespace and uses it to get 
+the PersistentVolume backing the claim. The volume is then mounted to the host and into the Pod.
+
+A PV can have a class, which is specified by setting the storageClassName attribute to the name
+of a StorageClass. A PV of a particular class can only be bound to PVCs requesting that class. 
+A PV with no storageClassName has no class and can only be bound to PVCs that request no 
+particular class.
+
+A claim can request a particular class by specifying the name of a StorageClass using the 
+attribute storageClassName. Only PVs of the requested class, ones with the same storageClassName 
+as the PVC, can be bound to the PVC.
+
+kubectl get pv
