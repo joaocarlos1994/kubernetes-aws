@@ -40,6 +40,12 @@ but you should add a custom prefix as bucket names need to be unique.
 
 For a gossip-based cluster, make sure the name ends with k8s.local. For example:
 
+Obs.: (A gossip protocol is a procedure or process of computer peer-to-peer communication that 
+       is based on the way epidemics spread.[1] Some distributed systems use peer-to-peer 
+       gossip to ensure that data is disseminated to all members of a group. Some ad-hoc 
+       networks have no central registry and the only way to spread common data is to rely on 
+       each member to pass it along to their neighbours.)
+
                     export NAME=fleetman.k8s.local
 
                     export KOPS_STATE_STORE=s3://kops-joao-carlos-1994
