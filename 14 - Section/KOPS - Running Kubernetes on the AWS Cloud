@@ -1,0 +1,112 @@
+Kops
+
+We like to think of it as kubectl for clusters.
+
+kops helps you create, destroy, upgrade and maintain production-grade, highly available, 
+Kubernetes clusters from the command line. AWS (Amazon Web Services) is currently officially 
+supported, with GCE and OpenStack in beta support, and VMware vSphere in alpha, and other 
+platforms planned.
+
+
+Setup your environment
+
+In order to build clusters within AWS we'll create a dedicated IAM user for kops. This user 
+requires API credentials in order to use kops. Create the user, and credentials, using the AWS 
+console.
+
+The kops user will require the following IAM permissions to function properly:
+
+- AmazonEC2FullAccess
+- AmazonRoute53FullAccess
+- AmazonS3FullAccess
+- IAMFullAccess
+- AmazonVPCFullAccess
+
+
+#Cluster State storage
+
+In order to store the state of your cluster, and the representation of your cluster, we need 
+to create a dedicated S3 bucket for kops to use. This bucket will become the source of truth 
+for our cluster configuration. In this guide we'll call this bucket example-com-state-store, 
+but you should add a custom prefix as bucket names need to be unique.
+
+                    aws s3api create-bucket \
+                        --bucket prefix-example-com-state-store \
+                        --region us-east-1
+
+
+
+#Prepare local environment
+
+For a gossip-based cluster, make sure the name ends with k8s.local. For example:
+
+Obs.: (A gossip protocol is a procedure or process of computer peer-to-peer communication that 
+       is based on the way epidemics spread.[1] Some distributed systems use peer-to-peer 
+       gossip to ensure that data is disseminated to all members of a group. Some ad-hoc 
+       networks have no central registry and the only way to spread common data is to rely on 
+       each member to pass it along to their neighbours.)
+
+                    export NAME=fleetman.k8s.local
+
+                    export KOPS_STATE_STORE=s3://kops-joao-carlos-1994
+
+
+
+#Create cluster configuration
+
+We will need to note which availability zones are available to us. In this example we will be 
+deploying our cluster to the us-west-2 region.
+
+                    aws ec2 describe-availability-zones --region eu-west-2
+
+
+Below is a create cluster command. We'll use the most basic example possible, with more verbose 
+examples in high availability. The below command will generate a cluster configuration, but 
+will not start building it. Make sure you have generated an SSH key pair before creating your 
+cluster.
+
+                    kops create cluster --zones=eu-west-2a,eu-west-2b,eu-west-2c ${NAME}
+
+To create a new rsa key using the following commands
+
+                    ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa
+
+                    ops create secret --name ${NAME} sshpublickey admin -i ~/.ssh/id_rsa.pub
+
+
+All instances created by kops will be built within ASG (Auto Scaling Groups), which means each 
+instance will be automatically monitored and rebuilt by AWS if it suffers any failure.
+
+
+#Customize Cluster Configuration
+
+
+Now we have a cluster configuration, we can look at every aspect that defines our cluster by 
+editing the description and we can edit the node configuration using the following command.
+
+                    kops edit cluster ${NAME} - (For Cluster)
+
+                    kops edit ig nodes --name ${NAME} - (For Nodes)
+
+
+Some other utils commands:
+
+- kops get ig --name ${NAME}
+
+- kops edit ig NAME_OF_MASTER_NODE -- name ${NAME}
+
+- kops update cluster ${NAME} --yes
+
+- kops validate cluster
+
+- kubectl get nodes
+
+- kubectl get po -o wide
+
+
+EKS vs Kops - Which to Choose?
+
+    - Kops is well respected and heavily used (Pro)
+    - You're responsible for managing the Master Node (Cons)
+    - Only get single Master Node (Cons)
+    - EKS integrate easy with AWS Fargate
