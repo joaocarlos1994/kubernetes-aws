@@ -1,0 +1,8 @@
+Deleting the Cluster in EKS
+
+To delete a EKS Cluster you need to run the following commanda:
+
+    - eksctl delete cluster eks-course
+
+It is necessary to check all information about Cluster deletion, such as Load Balance, Volumes,
+EC2 Instances and visit EKS page on AWS to check if exist any Cluster registrated.    

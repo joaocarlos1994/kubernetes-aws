@@ -1,0 +1,95 @@
+EKS - Running Kubernetes on the AWS Cloud
+
+The eksctl is a command line to use on EKS Cluster. There is Github repositorie about this command
+line available on following link: 
+
+    1 - weaveworks/eksctl - https://github.com/weaveworks/eksctl
+
+eksctl is a simple CLI tool for creating clusters on EKS - Amazon's new managed Kubernetes service 
+for EC2. It is written in Go, and uses CloudFormation.
+
+About is the instructions to create EKS Cluster by Richard Chesterwood (https://github.com/DickChesterwood)
+
+
+1: Install eksctl
+------------------
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+
+sudo mv /tmp/eksctl /usr/local/bin
+
+
+
+2: Update AWS CLI to Version 2 because it's necessary version 1.18.x or later to use eksctl
+------------------------------
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+
+
+
+3: Set up a Group
+-----------------
+
+Set up a group with the Permissions of:
+
+AmazonEC2FullAccess
+IAMFullAccess
+AWSCloudFormationFullAccess
+
+You also need to create an inline policy, using the following:
+--------------------------------------------------------------
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "eks:*",
+      "Resource": "*"
+    },
+    {
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+
+You could set miniumum access using the following as references:
+
+    eksctl documention link - https://eksctl.io/usage/minimum-iam-policies/
+
+
+
+4: Crate a user and add to the group
+--------------------------
+
+Use the console to add a user to your new group, and then use "aws configure" to input the credentials.
+
+
+
+5: Install kubectl
+------------------
+
+Warning: check the current default kubernetes version supplied with EKS and install a matching version of kubectl
+
+export RELEASE=<enter default eks version number here. Eg 1.17.0>
+export RELEASE=1.17.0 #You need to add minor version
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v$RELEASE/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+Check the version with "kubectl version --client"
+
+
+
+6: Start your cluster!
+----------------------
+
+eksctl create cluster --name eks-course --nodes-min=3

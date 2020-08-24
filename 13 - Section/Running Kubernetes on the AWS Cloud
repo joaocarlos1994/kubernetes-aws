@@ -1,1 +1,8 @@
 Running Kubernetes on the AWS Cloud
+
+This section is an description about Kops e EKS Cluster on AWS. The main diference about 
+this two option  is that EKS doesn't have a main node wherease Kops used to have main
+node to manager.
+
+Using the EKS the main node is manager by AWS, and some os the benefit is the auto-scaling of
+main node.
