@@ -1,0 +1,34 @@
+Monitoring a Kubernetes Cluster with Prometheus and Grafana
+
+What is Helm?
+
+Helm helps you manage Kubernetes applications — 
+Helm Charts help you define, install, and upgrade 
+even the most complex Kubernetes application.
+
+To install helm using the following commad:
+
+1 - Download the latest version of Helm. For example:
+
+    wget https://get.helm.sh/helm-v2.16.10-linux-amd64.tar.gz
+
+2 - Decompress the downloaded file:
+
+    tar zxvf helm-v2.16.10-linux-amd64.tar.gz
+
+3 - Move the file linux-amd64 to local/bin:
+
+    mv linux-amd64/helm /usr/local/bin/
+
+4 - Initialize the Helm on EKS Cluster using the following commad:
+
+    helm init
+
+5 - Fixing the Helm priviledges on default name spaces, use the following commads:
+
+    - kubectl create serviceaccount --namespace kube-system tiller
+
+    - kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+    - kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}' 
+
