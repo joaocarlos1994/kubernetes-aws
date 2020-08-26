@@ -30,5 +30,67 @@ To install helm using the following commad:
 
     - kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
-    - kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}' 
+    - kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+
+6 - It is advice to install Prometheus using heml package following the link below:
+
+    - https://github.com/helm/charts/tree/master/stable/prometheus-operator
+
+    - helm install --name monitoring --namespace monitoring stable/prometheus-operator
+
+7 - It is necessary to edit an exists services to get Prometheus information because the
+    helm package instalation is configured as ClusterIP (Not necessary step):
+
+    - kubectl edit -n monitoring service/monitoring-prometheus-oper-prometheus
+
+    - Edit the services type to LoadBalancer, if you're using Minikube you only change to
+    NodePort. Examples:
+
+    For AWS:
+
+            selector:
+                app: prometheus
+                prometheus: monitoring-prometheus-oper-prometheus
+            sessionAffinity: None
+            type: LoadBalancer
+        status:
+            loadBalancer: {}
+
+    For Minikube:
+
+            selector:
+                app: prometheus
+                prometheus: monitoring-prometheus-oper-prometheus
+            sessionAffinity: None
+            type: NodePort
+        status:
+            loadBalancer: {}
+
+
+7 - It is necessary to edit an exists services to get Grafana interface because the
+    helm package instalation is configured as ClusterIP:    
+
+    - kubectl edit -n monitoring service/monitoring-grafana
+
+    For AWS:
+
+            selector:
+                app.kubernetes.io/instance: monitoring
+                app.kubernetes.io/name: grafana
+            sessionAffinity: None
+            type: LoadBalancer
+
+    For Minikube:
+
+            selector:
+                app.kubernetes.io/instance: monitoring
+                app.kubernetes.io/name: grafana
+            sessionAffinity: None
+            type: NodePort            
+        
+
+
+
+
+
 
