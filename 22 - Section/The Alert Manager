@@ -1,0 +1,32 @@
+The Alert Manager
+
+The Alert Manager could be a feature pre-configured with Prometheus and Grafana
+instalation using Helm package.
+
+In this example using Helm package to install Prometheus and Grafana it was install
+an specific Alert Manager that you can access this resource on AWS infrastructure.
+
+To save some money you don't need to create a load balance to access Alert Manager interface,
+you can visit this page through Kubernet service using the proxy configuration.
+
+The first step to access a services without using a load balance you need to logon
+on browser as Kubernet's Adminstrator, to get this password run the following command:
+
+    kubectl config view --minify
+
+After you get your Kubernets Adminstrator password you need to log in and access
+the desired api for example:
+
+    LOAD_BALANCE_URI/api/v1/namespaces/monitoring/services/alertmanager-operated:9093/proxy/#/alerts
+
+Using the above URL you're accesing the service outside the cluster, without using a load balance.
+
+
+To configured an Alert on Slack the first step is to install Incoming WebHooks in your Slack Channel,
+after it you need to apply a specific .yaml with our configuration to send notification to slack,
+there are some option available, to check all visit the following link:
+
+    https://prometheus.io/docs/alerting/latest/configuration/#slack_config
+
+    
+
