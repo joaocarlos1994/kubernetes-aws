@@ -29,4 +29,28 @@ there are some option available, to check all visit the following link:
     https://prometheus.io/docs/alerting/latest/configuration/#slack_config
 
     
+To get log from specific container where there is two more container inside the pod, you can run 
+the following command:
 
+    kubectl logs -n monitoring POD_NAME -c CONTAINER_NAME
+
+To get a specific secrect from Kubernets cluster you can use the following commad:
+
+    kubectl get secret
+
+To get a specific secrect from namespace Kubernets you can use the following commad:
+
+    kubectl get secret -n NAME_SPACE
+
+To get the value of secret you can use the following command:
+
+    kubectl get secret -n monitoring SECRET_NAME -o json
+
+To delete a specific secrect from Kubernets you can use the following commad:
+
+    kubectl delete secret SECRET_NAME -n monitoring
+
+To create a specific key you can run the specific commad:
+    Obs: This following commad use 'generic' commad because the secret will be create from file
+
+    kubectl create secret -n monitoring generic alertmanager-monitoring-prometheus-oper-alertmanager --from-file=alertmanager.yaml   
