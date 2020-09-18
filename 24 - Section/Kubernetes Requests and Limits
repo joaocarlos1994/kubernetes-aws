@@ -1,0 +1,39 @@
+Kubernetes Requests and Limits
+
+To get all node from Cluster use the following command:
+
+    kubectl get nodes
+
+For retrieve information about the a specific node use the following command:
+
+    kubectl describe node minikube
+
+The motivation of request and limits is if your namespace has a resource quota, 
+it is helpful to have a default value in place for memory limit. Here are two of the 
+restrictions that a resource quota imposes on a namespace:
+
+    - Every Container that runs in the namespace must have its own memory limit.
+
+    - The total amount of memory used by all Containers in the namespace must not exceed a 
+    specified limit.
+
+The specification of request and limits following the pattern below:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-mem-demo-2
+spec:
+  containers:
+  - name: default-mem-demo-2-ctr
+    image: nginx
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "0.1m"  
+      limits:
+        memory: "1Gi"
+        cpu: "0.2m"
+
+If a Container does not specify its own memory limit, it is given the default limit, and then it 
+can be allowed to run in a namespace that is restricted by a quota.
