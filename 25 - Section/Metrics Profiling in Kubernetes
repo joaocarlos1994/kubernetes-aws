@@ -1,0 +1,17 @@
+Metrics Profiling in Kubernetes
+
+
+
+
+sudo minikube addons list
+
+sudo minikube addons enable metrics-server
+
+kubectl top pod
+
+kubectl top node
+
+sudo minikube addons enable dashboard
+
+sudo minikube dashboard
+
