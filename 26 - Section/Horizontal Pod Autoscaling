@@ -1,1 +1,16 @@
-Horizontal Pod Autoscaling
+HPA - Horizontal Pod Autoscaling
+
+The Horizontal Pod Autoscaler automatically scales the number of Pods in a replication controller, 
+deployment, replica set or stateful set based on observed CPU utilization (or, with custom metrics 
+support, on some other application-provided metrics). Note that Horizontal Pod Autoscaling does not 
+apply to objects that can't be scaled, for example, DaemonSets.
+
+The Horizontal Pod Autoscaler is implemented as a Kubernetes API resource and a controller. The 
+resource determines the behavior of the controller. The controller periodically adjusts the number 
+of replicas in a replication controller or deployment to match the observed average CPU utilization 
+to the target specified by user.
+
+
+Get all HPA in default namespace:
+
+    - kubectl get hpa
