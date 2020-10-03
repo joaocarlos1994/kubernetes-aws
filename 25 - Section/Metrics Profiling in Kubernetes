@@ -1,6 +1,7 @@
 Metrics Profiling in Kubernetes
 
-
+The main goal of this section is about limit on Kubernetes cluster. It was apply some command to check
+all the resources utilization and how to definied a specific limit to containers.
 
 
 sudo minikube addons list
@@ -14,4 +15,7 @@ kubectl top node
 sudo minikube addons enable dashboard
 
 sudo minikube dashboard
+
+
+kubectl describe node minikube
 
